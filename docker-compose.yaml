@@ -234,3 +234,22 @@ services:
     restart: always
     networks:
       - openim
+
+  oimws:
+    build: ./oimws
+    container_name: oimws
+    ports:
+      - "${OIMWS_API_PORT}:10003"
+    healthcheck:
+      test: [ "CMD", "sh", "-c", "mage check" ]
+      interval: 5s
+      timeout: 60s
+      retries: 10
+    environment:
+      - IMENV_CONFIG_OPENIMAPI=${OPENIMAPI}
+      - IMENV_CONFIG_OPENIMWS=${OPENIMWS}
+      - IMENV_LOG_ISSTDOUT=${LOG_IS_STDOUT}
+      - IMENV_LOG_REMAINLOGLEVEL=${LOG_LEVEL}
+    restart: always
+    networks:
+      - openim
